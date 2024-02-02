@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.storyweave.app.ui.theme.Cream
 import com.storyweave.app.ui.theme.StoryWeaveTheme
 
 @Composable
@@ -23,8 +24,9 @@ fun ReadScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0xFFFFFFF0))
+            .background(color = Color(Cream.value))
             .padding(16.dp)
+
 
 
     ) {
