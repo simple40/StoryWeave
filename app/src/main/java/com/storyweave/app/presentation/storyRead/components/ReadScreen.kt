@@ -1,25 +1,39 @@
 package com.storyweave.app.presentation.storyRead.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.storyweave.app.Auth.UserData
 import com.storyweave.app.ui.theme.Cream
 import com.storyweave.app.ui.theme.StoryWeaveTheme
 
 @Composable
 fun ReadScreen(
     storyTitle: String,
-    story: List<String>
+    story: List<String>,
+    userData: UserData?,
+    onSignOutClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -30,6 +44,36 @@ fun ReadScreen(
 
 
     ) {
+        Row (modifier = Modifier
+            .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+            
+        ){
+            if(userData?.profilePictureUrl != null){
+                AsyncImage(
+                    model = userData.profilePictureUrl,
+                    contentDescription = "Profile picture",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Fit
+                    )
+            }
+            if(userData?.username != null){
+                Text(
+                    text = userData.username,
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp
+                    )
+
+            }
+            Button(onClick = onSignOutClick) {
+                Text(text = "Sign Out")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = storyTitle,
             style = MaterialTheme.typography.bodyLarge
@@ -77,7 +121,13 @@ fun ReadScreenPreview() {
                 "As dawn broke, the city's hidden wonders were revealed, rewriting the annals of history...",
                 "But with every ending comes a new beginning, and the cycle of stories continued unabated...",
                 "For in the realm of imagination, the possibilities were as boundless as the stars in the night sky..."
-            )
+            ),
+            userData = UserData(
+                userId = "1",
+                username = "Vighnesh",
+                profilePictureUrl = "https://lh3.googleusercontent.com/a/ACg8ocKXgre5MDgaTOhc3VV-ZlA3OVwzlNaWRgD8qbzryECH=s360-c-no"
+            ),
+            onSignOutClick = {}
         )
     }
 }
